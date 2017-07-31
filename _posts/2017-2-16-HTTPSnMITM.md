@@ -1,8 +1,3 @@
----
-layout: post
-title: First Post!
----
-
 # https -- man in the middle
 
 There is a desktop client A connecting to website W in a https connection
