@@ -1,4 +1,4 @@
-# Applications 
+## Applications 
 
   Alfred
   iTerm
@@ -6,6 +6,6 @@
   Visual Studio Code
   Sougou input
   
-  # VIM configuration
+  ### VIM configuration
   
     https://github.com/amix/vimrc
