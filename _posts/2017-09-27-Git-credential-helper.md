@@ -11,7 +11,9 @@ With Git 1.7.9 or later, you can just use one of the following credential helper
 
 ```git config --global credential.helper "cache --timeout=3600"```
 
-(That example was suggested in the GitHub help page for Linux.) You can also store your credentials permanently if so desired, see the other answers below.
+(That example was suggested in the GitHub help page for Linux.) You can also store your credentials permanently if so desired:
+
+```git config credential.helper store```
 
 GitHub's help also suggests that if you're on Mac OS X and used Homebrew to install Git, you can use the native Mac OS X keystore with:
 
