@@ -1,0 +1,1 @@
+https://repogen.simplylinux.ch/
