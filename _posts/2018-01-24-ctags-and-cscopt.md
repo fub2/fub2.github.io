@@ -79,3 +79,30 @@ I map cscope search to ctrl-space x 2 with this snippet, which mitigates the oth
 ```
 nmap <C-@><C-@> :cs find s <C-R>=expand("<cword>")<CR><CR>
 ```
+
+** Using cscope
+
+```
+:cscope add your_cscope_database
+:cscope find s [your_symbol]
+```
+Then commands of
+```
+:cn
+:cp
+:cnf
+:cpf
+:colder
+:cnewer
+
+* Searching word in VIM
+Put your cursor on that word, and type 
+
+`:cscope find s <CTRL-R><CTRL-W><enter>`
+
+Or remap key with F3 by:
+
+`noremap <F3> :cscope find s <C-r><c-w><cr>`
+
+
+
