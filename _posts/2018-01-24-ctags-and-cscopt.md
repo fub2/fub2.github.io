@@ -86,7 +86,9 @@ nmap <C-@><C-@> :cs find s <C-R>=expand("<cword>")<CR><CR>
 :cscope add your_cscope_database
 :cscope find s [your_symbol]
 ```
+
 Then commands of
+
 ```
 :cn
 :cp
@@ -94,13 +96,15 @@ Then commands of
 :cpf
 :colder
 :cnewer
+```
 
 * Searching word in VIM
-Put your cursor on that word, and type 
 
-`:cscope find s <CTRL-R><CTRL-W><enter>`
+1. Put your cursor on that word, and type 
 
-Or remap key with F3 by:
+2. `:cscope find s <CTRL-R><CTRL-W><enter>`
+
+* Or remap key with F3 by:
 
 `noremap <F3> :cscope find s <C-r><c-w><cr>`
 
