@@ -20,9 +20,9 @@ Alternative (and best approach IMHO) :
 
 Depending on what your Web Server is (Apache, NGinx) you should consider an HTTP Proxy on your front-end server (192.168.12.87) :
 
-![mod_proxy](http://httpd.apache.org/docs/current/en/mod/mod_proxy.html) (Apache)
+[mod_proxy](http://httpd.apache.org/docs/current/en/mod/mod_proxy.html) (Apache)
 
-![proxy_pass](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) (NGinx)
+[proxy_pass](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) (NGinx)
 
 ## reference
 https://www.systutorials.com/816/port-forwarding-using-iptables/
