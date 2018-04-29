@@ -8,9 +8,13 @@ First time using cloud image we'd have to know a little bit about cloud-init whi
 
 ### VMDK image - booting image of your virtual machines
   1. Download a .img file of your target cloud image, whatever 16.04, 17.10.
+  2. Check basic info of this qcow2 image and update its vitual disk size as required (optional)
+  ```qemu-img info artful-server-cloudimg-amd64.img
+     qemu-img resize artful-server-cloudimg-amd64.img 40G```
+  
   2. Convert it to VMDK format with `qemu-img`:
   
-  ```qemu-img convert -f qcow2 /mnt/hgfs/vm/artful-server-cloudimg-amd64.img -O vmdk /mnt/hgfs/vm/artful.vmdk```
+  ```qemu-img convert -f qcow2 artful-server-cloudimg-amd64.img -O vmdk artful.vmdk```
   
   3. Prepare cloud configuration data
     a. Prepare a file with name `meta-datawith` and content:
