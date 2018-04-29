@@ -7,7 +7,9 @@ First time using cloud image we'd have to know a little bit about cloud-init whi
 # Prepare all required images
 
 ### VMDK image - booting image of your virtual machines
+
   *. Download a .img file of your target cloud image, whatever 16.04, 17.10.
+  
   *. Check basic info of this qcow2 image and update its vitual disk size as required (optional)
   
   ```qemu-img info artful-server-cloudimg-amd64.img
@@ -18,12 +20,16 @@ First time using cloud image we'd have to know a little bit about cloud-init whi
   ```qemu-img convert -f qcow2 artful-server-cloudimg-amd64.img -O vmdk artful.vmdk```
   
   *. Prepare cloud configuration data
+  
     a. Prepare a file with name `meta-datawith` and content:
+    
       ```
       instance-id: iid-local01
       local-hostname: cloud-img-host01
       ```
+      
      b. Prepare another file with name `user-data` and content:
+     
       ```
       #cloud-config
 
@@ -31,6 +37,7 @@ First time using cloud image we'd have to know a little bit about cloud-init whi
       chpasswd: { expire: False }
       ssh_pwauth: True
       ```
+      
      c. Generate a seek ISO file to include these 2 files:
 	 `genisoimage -output seed.iso -volid cidata -joliet -rock user-data meta-data`
 	 
