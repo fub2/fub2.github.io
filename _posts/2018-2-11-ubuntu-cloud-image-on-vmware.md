@@ -8,18 +8,20 @@ First time using cloud image we'd have to know a little bit about cloud-init whi
 
 ### VMDK image - booting image of your virtual machines
 
-  *. Download a .img file of your target cloud image, whatever 16.04, 17.10.
+  1. Download a .img file of your target cloud image, whatever 16.04, 17.10.
   
-  *. Check basic info of this qcow2 image and update its vitual disk size as required (optional)
+  1. Check basic info of this qcow2 image and update its vitual disk size as required (optional)
   
-  ```qemu-img info artful-server-cloudimg-amd64.img
-     qemu-img resize artful-server-cloudimg-amd64.img 40G```
+  ```
+  qemu-img info artful-server-cloudimg-amd64.img
+  qemu-img resize artful-server-cloudimg-amd64.img 40G
+  ```
   
-  *. Convert it to VMDK format with `qemu-img`:
+  1. Convert it to VMDK format with `qemu-img`:
   
   ```qemu-img convert -f qcow2 artful-server-cloudimg-amd64.img -O vmdk artful.vmdk```
   
-  *. Prepare cloud configuration data
+  2. Prepare cloud configuration data
   
     a. Prepare a file with name `meta-datawith` and content:
     
@@ -41,9 +43,9 @@ First time using cloud image we'd have to know a little bit about cloud-init whi
      c. Generate a seek ISO file to include these 2 files:
 	 `genisoimage -output seed.iso -volid cidata -joliet -rock user-data meta-data`
 	 
-  *. Create a fresh virtual machine with VMWare workstation and point disk drive to the VMDK file you generated step 2 and point CD-ROM file point to the ISO file generated in step 3
+  3. Create a fresh virtual machine with VMWare workstation and point disk drive to the VMDK file you generated step 2 and point CD-ROM file point to the ISO file generated in step 3
   
-  *. Powering on VM and the login credential is ubuntu/Passw0rd as defined in user-data
+  5. Powering on VM and the login credential is ubuntu/Passw0rd as defined in user-data
 
 
 
