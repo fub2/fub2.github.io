@@ -23,14 +23,14 @@ First time using cloud image we'd have to know a little bit about cloud-init whi
   
   4. Prepare cloud configuration data
   
-    a. Prepare a file with name `meta-datawith` and content:
+    1. Prepare a file with name `meta-datawith` and content:
     
       ```
       instance-id: iid-local01
       local-hostname: cloud-img-host01
       ```
       
-     b. Prepare another file with name `user-data` and content:
+    2. Prepare another file with name `user-data` and content:
      
       ```
       #cloud-config
@@ -40,8 +40,9 @@ First time using cloud image we'd have to know a little bit about cloud-init whi
       ssh_pwauth: True
       ```
       
-     c. Generate a seek ISO file to include these 2 files:
-	 `genisoimage -output seed.iso -volid cidata -joliet -rock user-data meta-data`
+    3. Generate a seek ISO file to include these 2 files:
+    
+	 ```genisoimage -output seed.iso -volid cidata -joliet -rock user-data meta-data```
 	 
   5. Create a fresh virtual machine with VMWare workstation and point disk drive to the VMDK file you generated step 2 and point CD-ROM file point to the ISO file generated in step 3
   
