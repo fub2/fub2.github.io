@@ -48,6 +48,21 @@ First time using cloud image we'd have to know a little bit about cloud-init whi
   
   6. Powering on VM and the login credential is ubuntu/Passw0rd as defined in user-data
 
+### What if you'd like to get rid of cloud-init stuff
+
+* wait until the VM boots
+* login
+* Execute:
+
+```
+echo 'datasource_list: [ None ]' | sudo -s tee /etc/cloud/cloud.cfg.d/90_dpkg.cfg
+sudo apt-get purge cloud-init
+sudo rm -rf /etc/cloud/; sudo rm -rf /var/lib/cloud/
+```
+
+Or run command of `dpkg-reconfigure cloud-init` and select option of "None: Failsafe datasource"
+
+* reboot
 
 
 ## Resources and References
