@@ -23,14 +23,14 @@ qemu-img resize artful-server-cloudimg-amd64.img 40G
   
   4. Prepare cloud configuration data
   
-    *. Prepare a file with name `meta-data` with and content:
+    1. Prepare a file with name `meta-data` with and content:
     
 ```
 instance-id: iid-local01
 local-hostname: cloud-img-host01
 ```
       
-    *. Prepare another file with name `user-data` and content:
+    2. Prepare another file with name `user-data` and content:
      
 ```
 #cloud-config
@@ -40,7 +40,7 @@ chpasswd: { expire: False }
 ssh_pwauth: True
 ```
       
-    *. (optional)prepare network-config file if you'd like to specify networking configuration on boot:
+    3. (optional)prepare network-config file if you'd like to specify networking configuration on boot:
     
 ```
 ## /network-config on NoCloud cidata disk
@@ -66,9 +66,10 @@ config:
   search: [example.com, foo.biz, bar.info]
 ```
       
-    *. Generate a seek ISO file to include these 2 files:
+    4. Generate a seek ISO file to include these 2 files:
     
-```genisoimage -output seed.iso -volid cidata -joliet -rock user-data meta-data```
+```genisoimage -output seed.iso -volid cidata -joliet -rock user-data meta-data``` or
+```genisoimage -output seed.iso -volid cidata -joliet -rock user-data meta-data network-config```
 	 
   5. Create a fresh virtual machine with VMWare workstation and point disk drive to the VMDK file you generated step 2 and point CD-ROM file point to the ISO file generated in step 3
   
