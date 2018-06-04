@@ -22,6 +22,7 @@ qemu-img resize artful-server-cloudimg-amd64.img 40G
   ```qemu-img convert -f qcow2 artful-server-cloudimg-amd64.img -O vmdk artful.vmdk```
   
   4. Prepare cloud configuration data
+  
   ..* Prepare a file with name `meta-data` with and content:
     
 ```
