@@ -22,14 +22,14 @@ qemu-img resize artful-server-cloudimg-amd64.img 40G
   ```qemu-img convert -f qcow2 artful-server-cloudimg-amd64.img -O vmdk artful.vmdk```
   
   4. Prepare cloud configuration data
-    * Prepare a file with name `meta-data` with and content:
+  ..* Prepare a file with name `meta-data` with and content:
     
 ```
 instance-id: iid-local01
 local-hostname: cloud-img-host01
 ```
-      
-    * Prepare another file with name `user-data` and content:
+
+  ..* Prepare another file with name `user-data` and content:
      
 ```
 #cloud-config
@@ -39,7 +39,7 @@ chpasswd: { expire: False }
 ssh_pwauth: True
 ```
       
-    * (optional)prepare network-config file if you'd like to specify networking configuration on boot:
+  ..* (optional)prepare network-config file if you'd like to specify networking configuration on boot:
     
 ```
 ## /network-config on NoCloud cidata disk
@@ -65,7 +65,7 @@ config:
   search: [example.com, foo.biz, bar.info]
 ```
       
-    * Generate a seek ISO file to include these 2 files:
+  ..* Generate a seek ISO file to include these 2 files:
     
 ```genisoimage -output seed.iso -volid cidata -joliet -rock user-data meta-data``` or
 ```genisoimage -output seed.iso -volid cidata -joliet -rock user-data meta-data network-config```
