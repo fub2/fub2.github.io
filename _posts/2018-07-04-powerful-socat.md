@@ -11,14 +11,14 @@ Socat is a tool to manipulate sockets, one input and one output. But the idea of
 * a program or script
 For each data channel, parameters can be added (port, speed, permissions, owners, etc). For those who use Netcat, the default features remain the same.
 
-# Example 1: To exchange data via a TCP session across two hosts:
+* Example 1: To exchange data via a TCP session across two hosts:
 
 ```
   hosta$ socat TCP4-LISTEN:31337 OPEN:inputfile,creat,append
   hostb$ cat datafile | socat - TCP4:hosta:31337
 ```
 
-# Example #2: To use a local serial line (to configure a network device or access a modem) without a terminal emulator
+* Example #2: To use a local serial line (to configure a network device or access a modem) without a terminal emulator
 
 ```
   $ socat READLINE,history:/tmp/serial.cmds \
@@ -27,7 +27,7 @@ For each data channel, parameters can be added (port, speed, permissions, owners
 
 The “READLINE” data channel uses GNU readline to allow editing and reusing input lines like a classic shell.
 
-# Example #3: To grab some HTTP content without a browser
+* Example #3: To grab some HTTP content without a browser
 
 ```
   $ cat <<EOF | socat - TCP4:blog.rootshell.be:80
@@ -37,17 +37,17 @@ The “READLINE” data channel uses GNU readline to allow editing and reusing i
   EOF
 ```
 
-# Example #4: To use Socat to collect Syslog messages
+* Example #4: To use Socat to collect Syslog messages
 
 ```  # socat -u UDP4-LISTEN:5140,reuseaddr,fork OPEN:/tmp/syslog.msg,creat,append```
 
-# Example #5: The “EXEC” channel allow us to specify an external program or script. Using the “fdin=” and “fdout=” parameters, it is easy to parse the information received from the input channel and to send back information.
+* Example #5: The “EXEC” channel allow us to specify an external program or script. Using the “fdin=” and “fdout=” parameters, it is easy to parse the information received from the input channel and to send back information.
 
 ```
   $ socat TCP4:12.34.56.78:31337 EXEC:parse.sh,fdin=3,fdout=4
 ```
 
-# Example #6: The following Bash script simulates a web server and can look for suspicious content. If none is found, the visitor is redirected to another site. Note that, for security reasons, “EXEC” does not allow a relative path for the executable. It must be present in your $PATH.
+The following Bash script simulates a web server and can look for suspicious content. If none is found, the visitor is redirected to another site. Note that, for security reasons, “EXEC” does not allow a relative path for the executable. It must be present in your $PATH.
 
 ```
   #!/bin/bash
@@ -91,31 +91,39 @@ The “READLINE” data channel uses GNU readline to allow editing and reusing i
 
 By using the file descriptors 3 and 4, we can easily read what’s sent by the client and send data into the TCP session.
 
-### socat: The General Bidirectional Pipe Handler
+# socat: The General Bidirectional Pipe Handler
 
 Because socat allows bidirectional data flow between the two locations you specify, it doesn't really matter which order you specify them in. Locations have the general form of TYPE:options where TYPE can be CREATE, GOPEN or OPEN for normal filesystem files. There are also shortcuts for some locations like STDIO (or just -) which reads and writes to standard input and output respectively.
 
 The SYSTEM type can be used to execute a program and connect to its standard input and output. For example, the command shown below will run the date command and transfer its output to standard output.
 
+```
 $ socat SYSTEM:date -
 Thu Apr 23 12:57:00 EST 2009
+```
+
 Many network services handle control commands using plain text. For example, SMTP servers, HTTP servers. The below socat command will open a connection to a Web server and fetch a page to the console. Notice that the port is specified using the service name and a comma separates the address from the cnrl option which handles line termination transformations for us.
 
+```
 $ socat - TCP:localhost:www,crnl
 GET /
 
-
 ...
+```
+
 If the network service is more interactive, you might like to use readline to track your command history, improve command editing, and allow you to search and recall your previous commands. Instead of connecting standard IO as the first location in the above command, using READLINE,history=$HOME/.http_history will cause socat to use readline to get your commands.
 
 Many of the socat location TYPEs take more than one option. For example, GOPEN (generic open) lets you specify append if you would like to append too rather than overwrite the file. The below keeps a log file of the time each time you execute it. This is similar to the Web server example, a comma separated list of additional options for the location.
 
-```$ date | socat - GOPEN:/tmp/capture,append```
+```$ date | socat - GOPEN:/tmp/capture,append
+```
 
 While this example is quite superfluous in that you could just use the shell >> redirection to append to the file, you could also include a network link into the mix with minimal effort using socat as shown below. The first command connects port 3334 on localhost to the file /tmp/capture. The seek-end moves the file to zero bytes from the end and the append makes sure that bytes are appended to the file rather than overwriting it. The client command, shown as the second command below, is very similar to the simpler example shown above except we now send standard IO to a socket address.
 
-```$ socat TCP4-LISTEN:3334,reuseaddr,fork gopen:/tmp/capture,seek-end=0,append
-$ date | socat STDIO tcp:localhost:3334```
+```
+$ socat TCP4-LISTEN:3334,reuseaddr,fork gopen:/tmp/capture,seek-end=0,append
+$ date | socat STDIO tcp:localhost:3334
+```
 
 One great use case for socat is making device files from one machine available on another one. I'll use the example from the socat manual page shown below to demonstrate. The first location creates a PTY device on the local machine allowing raw communication with the other location. The other location is an ssh connection to a server machine, where the standard IO is connected to the serial device on the remote machine.
 
