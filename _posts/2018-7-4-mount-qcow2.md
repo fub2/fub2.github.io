@@ -1,40 +1,45 @@
 
-How to mount a qcow2 disk image
--------------------------------
+# How to mount a qcow2 disk image
 
 This is a quick guide to mounting a qcow2 disk images on your host server. This is useful to reset passwords,
 edit files, or recover something without the virtual machine running.
 
 * Step 1 - Enable NBD on the Host*
     
-    modprobe nbd max_part=8
+    `modprobe nbd max_part=8`
 
 * Step 2 - Connect the QCOW2 as network block device
 
-    qemu-nbd --connect=/dev/nbd0 /var/lib/vz/images/100/vm-100-disk-1.qcow2
+   `qemu-nbd --connect=/dev/nbd0 /var/lib/vz/images/100/vm-100-disk-1.qcow2`
 
-**Step 3 - Find The Virtual Machine Partitions**
+* Step 3 - Find The Virtual Machine Partitions
 
-    fdisk /dev/nbd0 -l
+    `fdisk /dev/nbd0 -l`
 
-**Step 4 - Mount the partition from the VM**
+* Step 4 - Mount the partition from the VM
 
-    mount /dev/nbd0p1 /mnt/somepoint/
+    `mount /dev/nbd0p1 /mnt/somepoint/`
 
-**Step 5 - After you done, unmount and disconnect**
+* Step 5 - After you done, unmount and disconnect
 
+```
     umount /mnt/somepoint/
     qemu-nbd --disconnect /dev/nbd0
     rmmod nbd
+```   
+
     
-    ====================
+# mount: unknown filesystem type LVM2_member
     
-    mount: unknown filesystem type LVM2_member
-    
-    root@svennd:~# mount /dev/sdd2 /mnt/disk
+```
+root@svennd:~# mount /dev/sdd2 /mnt/disk`
+
 mount: unknown filesystem type 'LVM2_member'
+```
+
 The fdisk -l already told me its a LVM :
 
+```
 root@svennd:~# fdisk -l /dev/sdd
 Disk /dev/sdd: 233.8 GiB, 251000193024 bytes, 490234752 sectors
 Units: sectors of 1 * 512 = 512 bytes
@@ -45,10 +50,13 @@ Disk identifier: 0x0009345d
 Device     Boot  Start       End   Sectors   Size Id Type
 /dev/sdd1  *        63    208844    208782   102M 83 Linux
 /dev/sdd2       208845 488247479 488038635 232.7G 8e Linux LVM
+```
+
  (/dev/sdi1 is /boot partition, /dev/sdi2 is where the /home data resides)
 
 Seems lvm2 tools also provide a way to check if its lvm or not, using lvmdiskscan (/dev/sdd2 here)
 
+```
 root@svennd:~# lvmdiskscan
   /dev/sdb1  [       1.82 TiB]
   /dev/sdc2  [     149.04 GiB]
@@ -58,21 +66,33 @@ root@svennd:~# lvmdiskscan
   4 partitions
   0 LVM physical volume whole disks
   1 LVM physical volume
+```
+
 Fine, now lets scan what lv’s are to be found using lvscan
 
+```
 root@svennd:~# lvscan
  inactive '/dev/VolGroup00/LogVol00' [230.75 GiB] inherit
  inactive '/dev/VolGroup00/LogVol01' [1.94 GiB] inherit
+```
+
 Since this is a old disk in an enclosure, its not activated on system boot. So we need to “activate” this lvm volume.
 
+```
 root@svennd:~# vgchange -ay
  2 logical volume(s) in volume group "VolGroup00" now active
+```
+
 and bam, ready to mount :
 
+```
 root@svennd:~# lvscan
   ACTIVE            '/dev/VolGroup00/LogVol00' [230.75 GiB] inherit
   ACTIVE            '/dev/VolGroup00/LogVol01' [1.94 GiB] inherit
+```
+
 now to mount :
 
-mount /dev/VolGroup00/LogVol00 /mnt/disk
+`mount /dev/VolGroup00/LogVol00 /mnt/disk`
+
 succes !
