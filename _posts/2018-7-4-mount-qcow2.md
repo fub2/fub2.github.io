@@ -5,11 +5,11 @@ How to mount a qcow2 disk image
 This is a quick guide to mounting a qcow2 disk images on your host server. This is useful to reset passwords,
 edit files, or recover something without the virtual machine running.
 
-**Step 1 - Enable NBD on the Host**
+* Step 1 - Enable NBD on the Host*
     
     modprobe nbd max_part=8
 
-**Step 2 - Connect the QCOW2 as network block device**
+* Step 2 - Connect the QCOW2 as network block device
 
     qemu-nbd --connect=/dev/nbd0 /var/lib/vz/images/100/vm-100-disk-1.qcow2
 
