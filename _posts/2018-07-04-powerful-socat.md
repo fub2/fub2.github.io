@@ -73,22 +73,13 @@ The following Bash script simulates a web server and can look for suspicious con
     if [ "$?" = "0" ]; then
       echo "ALERT: Suspicous HTTP: $BUFFER" >>http.log
       cat <END0 >&4
-      <html>
-      <body>
-      <h1>This incident has been logged...</h1>
-      </body>
-      </html>
+      --html content--
       END0
       exit 0
     fi
   done
   cat <<END1 >&4
-  <html>
-  <meta http-equiv="refresh" content="0; url=https://blog.rootshell.be">
-  <body
-  You will be redirected soon...
-  </body>
-  </html>
+  --html content--
   END1
 ```
 
