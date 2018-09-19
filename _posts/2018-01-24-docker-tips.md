@@ -1,5 +1,8 @@
 ## commands
-* ```docker rm $(docker stop $(docker ps -a -q --filter ancestor=<image-name> --format="{{.ID}}"))```
+
+```
+# docker rm $(docker stop $(docker ps -a -q --filter ancestor=<image-name> --format="{{.ID}}"))
+```
 
 ## Break into a running container
 

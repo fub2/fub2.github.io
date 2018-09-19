@@ -9,6 +9,7 @@ Socat is a tool to manipulate sockets, one input and one output. But the idea of
 * a socket (IPv4, IPv6, raw, TCP, UDP, SSL)
 * a FD (STDIN, STDOUT)
 * a program or script
+
 For each data channel, parameters can be added (port, speed, permissions, owners, etc). For those who use Netcat, the default features remain the same.
 
 * Example 1: To exchange data via a TCP session across two hosts:
@@ -18,7 +19,7 @@ For each data channel, parameters can be added (port, speed, permissions, owners
   hostb$ cat datafile | socat - TCP4:hosta:31337
 ```
 
-* Example #2: To use a local serial line (to configure a network device or access a modem) without a terminal emulator
+* Example 2: To use a local serial line (to configure a network device or access a modem) without a terminal emulator
 
 ```
   $ socat READLINE,history:/tmp/serial.cmds \
@@ -39,12 +40,14 @@ The “READLINE” data channel uses GNU readline to allow editing and reusing i
 
 * Example #4: To use Socat to collect Syslog messages
 
-```  # socat -u UDP4-LISTEN:5140,reuseaddr,fork OPEN:/tmp/syslog.msg,creat,append```
+```
+# socat -u UDP4-LISTEN:5140,reuseaddr,fork OPEN:/tmp/syslog.msg,creat,append
+```
 
 * Example #5: The “EXEC” channel allow us to specify an external program or script. Using the “fdin=” and “fdout=” parameters, it is easy to parse the information received from the input channel and to send back information.
 
 ```
-  $ socat TCP4:12.34.56.78:31337 EXEC:parse.sh,fdin=3,fdout=4
+$ socat TCP4:12.34.56.78:31337 EXEC:parse.sh,fdin=3,fdout=4
 ```
 
 The following Bash script simulates a web server and can look for suspicious content. If none is found, the visitor is redirected to another site. Note that, for security reasons, “EXEC” does not allow a relative path for the executable. It must be present in your $PATH.
@@ -115,7 +118,8 @@ If the network service is more interactive, you might like to use readline to tr
 
 Many of the socat location TYPEs take more than one option. For example, GOPEN (generic open) lets you specify append if you would like to append too rather than overwrite the file. The below keeps a log file of the time each time you execute it. This is similar to the Web server example, a comma separated list of additional options for the location.
 
-```$ date | socat - GOPEN:/tmp/capture,append
+```
+$ date | socat - GOPEN:/tmp/capture,append
 ```
 
 While this example is quite superfluous in that you could just use the shell >> redirection to append to the file, you could also include a network link into the mix with minimal effort using socat as shown below. The first command connects port 3334 on localhost to the file /tmp/capture. The seek-end moves the file to zero bytes from the end and the append makes sure that bytes are appended to the file rather than overwriting it. The client command, shown as the second command below, is very similar to the simpler example shown above except we now send standard IO to a socket address.
