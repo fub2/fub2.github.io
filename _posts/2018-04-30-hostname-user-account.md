@@ -37,7 +37,7 @@ To:
 ### create user account
 
 ```
-useradd -m tim
+useradd -m tim -s /bin/bash
 useradd -m -d /test test
 passwd test
 su - test
