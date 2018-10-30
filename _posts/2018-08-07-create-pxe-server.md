@@ -104,3 +104,12 @@ dhcpd -t /etc/dhcp/dhcpd.conf
 tcpdump -i ens32 > tcpdump.log
 tail -F /var/log/syslog
 ```
+
+Error of `cannot bind to local IPv4 socket: Address already in use`
+
+It seems like the problem is that the tftp port (69) is already in use, when you start the tftp server. This might be due to a new program which was installed/updated recently.
+
+Running the following command will help you figure out which process is using tftp port (69) on your machine:
+
+```netstat -lnp | grep 69```
+
