@@ -8,7 +8,7 @@ The procedure described here disallows direct root login, so when you connect us
 * Disabling root login
 1. Edit the /etc/ssh/sshd_config file with a text editor and find the following line:
 
-`#PermitRootLogin yes`
+`PermitRootLogin yes`
 
 2. Change the yes to no and remove the ‘#’ at the beginning of the line so that it reads :
  
@@ -35,6 +35,6 @@ Restart the sshd service for the changes to take effect :
 
 `# service sshd restart`
 
-*Allow / disallow groups ssh login
+* Allow / disallow groups ssh login
 
 To restrict groups, the option AllowGroups and DenyGroups are used in the file /etc/ssh/sshd_config. The said options will allow or disallow users whose primary group or supplementary group matches one of the group patterns.
