@@ -6,10 +6,25 @@ https://ricostacruz.com/til/navigate-code-with-ctags
 
 # index all tags for ctag and cscope
 
-```
-find ../codetree/ -name ‘*.h’ -o -name ‘*.c’ -o -name ‘Makefile’ -o -name ‘*.cpp’ -o -name ‘*.asm’ -o -name ‘*.S’ > cscope.files
+bash script `cscope_ctags_gen.sh`
 
-cscope -b # this will gives cscope database cscope.out
+```
+#!/bin/sh
+find . -name '*.py' \
+-o -name '*.java'   \
+-o -iname '*.[ch]'  \
+-o -iname '*.[CH]'  \
+-o -name '*.cpp'    \
+-o -name '*.cc'     \
+-o -name '*.hpp'    \
+-o -name '*.asm'    \
+-o -name '*.S'      \
+> cscope.files
+
+# -b: just build
+# -q: create inverted index
+cscope -b -q  # this will gives cscope database cscope.out
+
 ctags -L cscope.files
 ```
 
@@ -54,23 +69,6 @@ At vim editor `:set tags=/home/user/ctags`
 
 # how cscope works
 `set cscopetag`
-
-bash script `cscope_gen.sh`
-
-```
-#!/bin/sh
-find . -name '*.py' \
--o -name '*.java' \
--o -iname '*.[CH]' \
--o -name '*.cpp' \
--o -name '*.cc' \
--o -name '*.hpp'  \
-> cscope.files
-
-# -b: just build
-# -q: create inverted index
-cscope -b -q
-```
 
 This searches for code that I'm interested in, creates the cscope.files list and creates the database. That way I can run `:!cscope_gen.sh` instead of having to remember all the set up steps.
 
